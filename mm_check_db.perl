@@ -21,7 +21,6 @@ $use_iconv = "false"; # recommended for windows users this will change srt Unico
 $use_convert = "false" ; # recommended for WDTV resize poster to 720x1080
 $preferd_poster = "he" ; # options is "he" or "en"
 
-
 # read user configure file
 eval slurp("/root/bin/mm_options.pl");
 $remote_files = "http://192.168.1.55";
@@ -85,8 +84,8 @@ foreach my $remote_row (@$remote_movies_row) {
 	    #wget srt/jpg to tmp 
 		 mywget("$remote_files/$srt/$srt_file",'/tmp/'.$srt_file);
 		 #chose  poster ...
-         if ($preferd_poster eq "he" ) {print "downloading he posrt \n" ; mywget($imdb_he_jpg,'/tmp/'.$jpg_file);}
-		 if ($preferd_poster eq "en" ) {print "downloading en posrt \n" ;mywget($imdb_en_jpg,'/tmp/'.$jpg_file);}
+         if ($preferd_poster eq "he" and ! -e "/tmp/$jpg_file") {print "downloading he posrt \n" ; mywget($imdb_he_jpg,'/tmp/'.$jpg_file);}
+		 if ($preferd_poster eq "en" and ! -e "/tmp/$jpg_file") {print "downloading en posrt \n" ;mywget($imdb_en_jpg,'/tmp/'.$jpg_file);}
 		 if (! -e "/tmp/$jpg_file")    {print "downloading defualt posrt \n" ;mywget("$remote_files/$srt/$jpg_file",'/tmp/'.$jpg_file);}
 		 #if convert 
 		 if ($use_convert eq "true" and -e "/tmp/$jpg_file") {

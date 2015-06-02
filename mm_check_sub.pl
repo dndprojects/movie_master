@@ -129,5 +129,27 @@ sub clean_dir
        $dir = $_[0];
 	   
 }
+sub shell_email
+ {
+
+     if ($OSNAME eq "linux") {
+        $email_cmd = ' mail';
+     }
+     if ($OSNAME eq "cygwin") {
+       $email_cmd = "email";
+   #   set $send_mail_alias = `echo $send_mail_alias | tr " " ","` 
+    }
+            $dir = $_[3];
+			my ($status, $output) = executeCommand('df -h ' . $dir . '| grep -v Filesystem' );
+			$t =(split/\s+/,$output)[1];
+			$n = (split/\s+/,$output)[3];
+		    $total_disk =  "TOTAL DISK Left $n Out of $t\n";
+           $info = $_[0];
+		   $jpg = $_[1];
+		   $send_mail_alias = $_[2];
+		   $email_cmd = 'printf "'. $total_disk .' \n\n ' . $info . ' \n\n '. $jpg . '"| '. $email_cmd .' -s "New TV_SERIES --> '.$name .'" '.$send_mail_alias;
+         # print "$email_cmd\n"     ;    
+		  executeCommand($email_cmd);
+}
 
  1;
